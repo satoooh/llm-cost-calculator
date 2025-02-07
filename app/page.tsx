@@ -1,65 +1,86 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import InputForm from "../components/InputForm"
-import { ModelsCombobox } from "../components/ui/combobox"
-import ResultsTable from "../components/ResultsTable"
-import CustomModelForm from "../components/CustomModelForm"
-import BatchEditInput from "../components/BatchEditInput"
-import { calculateTokens } from "../utils/tokenCalculator"
-import { calculateCosts } from "../utils/costCalculator"
-import defaultModels from "../data/defaultModels.json"
+import { useState, useEffect } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import InputForm from "../components/InputForm";
+import { ModelsCombobox } from "../components/ui/combobox";
+import ResultsTable from "../components/ResultsTable";
+import CustomModelForm from "../components/CustomModelForm";
+import BatchEditInput from "../components/BatchEditInput";
+import { calculateTokens } from "../utils/tokenCalculator";
+import { calculateCosts } from "../utils/costCalculator";
+import defaultModels from "../data/defaultModels.json";
 
-const DEFAULT_SELECTED_MODELS = ["gpt-4o", "gpt-4o-mini"]
+const DEFAULT_SELECTED_MODELS = ["GPT-4o", "GPT-4o mini"];
 
 export default function Home() {
-  const [inputText, setInputText] = useState("")
-  const [outputText, setOutputText] = useState("")
-  const [selectedModels, setSelectedModels] = useState<string[]>(DEFAULT_SELECTED_MODELS)
-  const [customModels, setCustomModels] = useState<any[]>([])
-  const [results, setResults] = useState<any[]>([])
-  const [inputTokens, setInputTokens] = useState(0)
-  const [outputTokens, setOutputTokens] = useState(0)
-  const [callCount, setCallCount] = useState(1)
+  const [inputText, setInputText] = useState("");
+  const [outputText, setOutputText] = useState("");
+  const [selectedModels, setSelectedModels] = useState<string[]>(
+    DEFAULT_SELECTED_MODELS
+  );
+  const [customModels, setCustomModels] = useState<any[]>([]);
+  const [results, setResults] = useState<any[]>([]);
+  const [inputTokens, setInputTokens] = useState(0);
+  const [outputTokens, setOutputTokens] = useState(0);
+  const [callCount, setCallCount] = useState(1);
 
   useEffect(() => {
-    const calculatedInputTokens = calculateTokens(inputText)
-    const calculatedOutputTokens = calculateTokens(outputText)
-    setInputTokens(calculatedInputTokens)
-    setOutputTokens(calculatedOutputTokens)
+    const calculatedInputTokens = calculateTokens(inputText);
+    const calculatedOutputTokens = calculateTokens(outputText);
+    setInputTokens(calculatedInputTokens);
+    setOutputTokens(calculatedOutputTokens);
 
-    const allModels = [...defaultModels, ...customModels]
-    const selectedModelData = allModels.filter((model) => selectedModels.includes(model.name))
-    const costs = calculateCosts(selectedModelData, calculatedInputTokens, calculatedOutputTokens)
-    setResults(costs.map((cost) => ({ ...cost, callCount })))
-  }, [inputText, outputText, selectedModels, customModels, callCount])
+    const allModels = [...defaultModels, ...customModels];
+    const selectedModelData = allModels.filter((model) =>
+      selectedModels.includes(model.name)
+    );
+    const costs = calculateCosts(
+      selectedModelData,
+      calculatedInputTokens,
+      calculatedOutputTokens
+    );
+    setResults(costs.map((cost) => ({ ...cost, callCount })));
+  }, [inputText, outputText, selectedModels, customModels, callCount]);
 
   // 初期表示時にデフォルトモデルの結果を計算
   useEffect(() => {
-    const defaultModelData = defaultModels.filter((model) => DEFAULT_SELECTED_MODELS.includes(model.name))
-    const initialCosts = calculateCosts(defaultModelData, inputTokens, outputTokens)
-    setResults(initialCosts.map((cost) => ({ ...cost, callCount })))
-  }, [])
+    const defaultModelData = defaultModels.filter((model) =>
+      DEFAULT_SELECTED_MODELS.includes(model.name)
+    );
+    const initialCosts = calculateCosts(
+      defaultModelData,
+      inputTokens,
+      outputTokens
+    );
+    setResults(initialCosts.map((cost) => ({ ...cost, callCount })));
+  }, []);
 
-  const handleBatchUpdate = (type: "input" | "output" | "callCount", value: number) => {
+  const handleBatchUpdate = (
+    type: "input" | "output" | "callCount",
+    value: number
+  ) => {
     if (type === "input") {
-      setInputTokens(value)
+      setInputTokens(value);
     } else if (type === "output") {
-      setOutputTokens(value)
+      setOutputTokens(value);
     } else {
-      setCallCount(value)
+      setCallCount(value);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="space-y-6">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-semibold tracking-tight">LLM Cost Calculator</h1>
-            <p className="text-sm text-muted-foreground">総トークン数: {inputTokens + outputTokens}</p>
+            <h1 className="text-2xl font-semibold tracking-tight">
+              LLM Cost Calculator
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              総トークン数: {inputTokens + outputTokens}
+            </p>
           </div>
 
           <Card className="border-none shadow-lg">
@@ -91,7 +112,10 @@ export default function Home() {
                     setSelectedModels={setSelectedModels}
                     defaultSelectedModels={DEFAULT_SELECTED_MODELS}
                   />
-                  <CustomModelForm customModels={customModels} setCustomModels={setCustomModels} />
+                  <CustomModelForm
+                    customModels={customModels}
+                    setCustomModels={setCustomModels}
+                  />
                 </div>
 
                 {/* Batch Edit Inputs */}
@@ -126,6 +150,5 @@ export default function Home() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-
