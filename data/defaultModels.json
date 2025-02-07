@@ -1,0 +1,23 @@
+[
+  {
+    "name": "GPT-4o",
+    "inputPrice": 0.03,
+    "outputPrice": 0.06
+  },
+  {
+    "name": "GPT-4o mini",
+    "inputPrice": 0.015,
+    "outputPrice": 0.03
+  },
+  {
+    "name": "Anthropic Claude 3",
+    "inputPrice": 0.02,
+    "outputPrice": 0.04
+  },
+  {
+    "name": "Google Gemini",
+    "inputPrice": 0.01,
+    "outputPrice": 0.02
+  }
+]
+

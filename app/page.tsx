@@ -1,101 +1,131 @@
-import Image from "next/image";
+"use client"
+
+import { useState, useEffect } from "react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import InputForm from "../components/InputForm"
+import { ModelsCombobox } from "../components/ui/combobox"
+import ResultsTable from "../components/ResultsTable"
+import CustomModelForm from "../components/CustomModelForm"
+import BatchEditInput from "../components/BatchEditInput"
+import { calculateTokens } from "../utils/tokenCalculator"
+import { calculateCosts } from "../utils/costCalculator"
+import defaultModels from "../data/defaultModels.json"
+
+const DEFAULT_SELECTED_MODELS = ["gpt-4o", "gpt-4o-mini"]
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [inputText, setInputText] = useState("")
+  const [outputText, setOutputText] = useState("")
+  const [selectedModels, setSelectedModels] = useState<string[]>(DEFAULT_SELECTED_MODELS)
+  const [customModels, setCustomModels] = useState<any[]>([])
+  const [results, setResults] = useState<any[]>([])
+  const [inputTokens, setInputTokens] = useState(0)
+  const [outputTokens, setOutputTokens] = useState(0)
+  const [callCount, setCallCount] = useState(1)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    const calculatedInputTokens = calculateTokens(inputText)
+    const calculatedOutputTokens = calculateTokens(outputText)
+    setInputTokens(calculatedInputTokens)
+    setOutputTokens(calculatedOutputTokens)
+
+    const allModels = [...defaultModels, ...customModels]
+    const selectedModelData = allModels.filter((model) => selectedModels.includes(model.name))
+    const costs = calculateCosts(selectedModelData, calculatedInputTokens, calculatedOutputTokens)
+    setResults(costs.map((cost) => ({ ...cost, callCount })))
+  }, [inputText, outputText, selectedModels, customModels, callCount])
+
+  // 初期表示時にデフォルトモデルの結果を計算
+  useEffect(() => {
+    const defaultModelData = defaultModels.filter((model) => DEFAULT_SELECTED_MODELS.includes(model.name))
+    const initialCosts = calculateCosts(defaultModelData, inputTokens, outputTokens)
+    setResults(initialCosts.map((cost) => ({ ...cost, callCount })))
+  }, [])
+
+  const handleBatchUpdate = (type: "input" | "output" | "callCount", value: number) => {
+    if (type === "input") {
+      setInputTokens(value)
+    } else if (type === "output") {
+      setOutputTokens(value)
+    } else {
+      setCallCount(value)
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="space-y-6">
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-semibold tracking-tight">LLM Cost Calculator</h1>
+            <p className="text-sm text-muted-foreground">総トークン数: {inputTokens + outputTokens}</p>
+          </div>
+
+          <Card className="border-none shadow-lg">
+            <CardContent className="p-6">
+              <div className="space-y-6">
+                {/* Input/Output Text Areas */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <InputForm
+                    inputText={inputText}
+                    setInputText={setInputText}
+                    label="入力テキスト"
+                    tokenCount={inputTokens}
+                  />
+                  <InputForm
+                    inputText={outputText}
+                    setInputText={setOutputText}
+                    label="出力テキスト（想定）"
+                    tokenCount={outputTokens}
+                  />
+                </div>
+
+                <Separator />
+
+                {/* Model Selection */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <ModelsCombobox
+                    models={[...defaultModels, ...customModels]}
+                    selectedModels={selectedModels}
+                    setSelectedModels={setSelectedModels}
+                    defaultSelectedModels={DEFAULT_SELECTED_MODELS}
+                  />
+                  <CustomModelForm customModels={customModels} setCustomModels={setCustomModels} />
+                </div>
+
+                {/* Batch Edit Inputs */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <BatchEditInput
+                    label="入力トークン"
+                    value={inputTokens}
+                    onChange={(value) => handleBatchUpdate("input", value)}
+                  />
+                  <BatchEditInput
+                    label="出力トークン"
+                    value={outputTokens}
+                    onChange={(value) => handleBatchUpdate("output", value)}
+                  />
+                  <BatchEditInput
+                    label="呼び出し回数"
+                    value={callCount}
+                    onChange={(value) => handleBatchUpdate("callCount", value)}
+                  />
+                </div>
+
+                {/* Results Table */}
+                <ResultsTable
+                  results={results}
+                  inputTokens={inputTokens}
+                  outputTokens={outputTokens}
+                  callCount={callCount}
+                />
+              </div>
+            </CardContent>
+          </Card>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
     </div>
-  );
+  )
 }
+
