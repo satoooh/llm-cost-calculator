@@ -22,6 +22,7 @@ interface Result {
   inputCost: number;
   outputCost: number;
   totalCost: number;
+  contextWindow: string;
 }
 
 interface ResultsTableProps {
@@ -34,20 +35,6 @@ interface ResultsTableProps {
 type SortConfig = {
   key: keyof Result | "perCallCost" | null;
   direction: "asc" | "desc";
-};
-
-const contextWindows: { [key: string]: string } = {
-  "GPT-4 Turbo": "128k",
-  "GPT-4o": "128k",
-  "GPT-4o mini": "128k",
-  "GPT-3.5 Turbo": "16k",
-  "Claude 3 Opus": "200k",
-  "Claude 3 Sonnet": "200k",
-  "Claude 3 Haiku": "200k",
-  "Gemini 1.5 Pro": "1M",
-  "Gemini 1.5 Flash": "1M",
-  o1: "128k",
-  "o3-mini": "128k",
 };
 
 // プロバイダーごとのアイコンマッピング
@@ -227,9 +214,7 @@ const ResultsTable: FC<ResultsTableProps> = ({
                       </div>
                     </TableCell>
                     <TableCell>{result.modelName}</TableCell>
-                    <TableCell>
-                      {contextWindows[result.modelName] || "-"}
-                    </TableCell>
+                    <TableCell>{result.contextWindow || "-"}</TableCell>
                     <TableCell className="text-right">
                       ${result.inputCost.toFixed(4)}
                     </TableCell>

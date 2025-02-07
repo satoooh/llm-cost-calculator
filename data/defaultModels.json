@@ -1,80 +1,156 @@
 [
   {
-    "name": "GPT-4 Turbo",
+    "name": "gpt-4-turbo",
     "provider": "OpenAI",
-    "inputPrice": 0.01,
-    "outputPrice": 0.03
+    "inputPrice": 10,
+    "outputPrice": 30,
+    "contextWindow": "128k"
   },
   {
-    "name": "GPT-4o",
+    "name": "gpt-4o",
     "provider": "OpenAI",
-    "inputPrice": 0.005,
-    "outputPrice": 0.015
+    "inputPrice": 2.5,
+    "outputPrice": 10,
+    "contextWindow": "128k"
   },
   {
-    "name": "GPT-4o mini",
+    "name": "gpt-4o-mini",
     "provider": "OpenAI",
-    "inputPrice": 0.00015,
-    "outputPrice": 0.0006
+    "inputPrice": 0.15,
+    "outputPrice": 0.6,
+    "contextWindow": "128k"
   },
   {
-    "name": "GPT-3.5 Turbo",
+    "name": "gpt-3.5-turbo",
     "provider": "OpenAI",
-    "inputPrice": 0.0015,
-    "outputPrice": 0.002
+    "inputPrice": 0.5,
+    "outputPrice": 1.5,
+    "contextWindow": "16k"
   },
   {
-    "name": "Claude 3 Opus",
+    "name": "claude-3-opus",
     "provider": "Anthropic",
-    "inputPrice": 0.015,
-    "outputPrice": 0.075
+    "inputPrice": 15,
+    "outputPrice": 75,
+    "contextWindow": "200k"
   },
   {
-    "name": "Claude 3 Sonnet",
+    "name": "claude-3-sonnet",
     "provider": "Anthropic",
-    "inputPrice": 0.003,
-    "outputPrice": 0.015
+    "inputPrice": 3,
+    "outputPrice": 15,
+    "contextWindow": "200k"
   },
   {
-    "name": "Claude 3 Haiku",
+    "name": "claude-3-haiku",
     "provider": "Anthropic",
-    "inputPrice": 0.00025,
-    "outputPrice": 0.00125
+    "inputPrice": 0.25,
+    "outputPrice": 1.25,
+    "contextWindow": "200k"
   },
   {
-    "name": "Gemini 1.5 Pro",
+    "name": "gemini-1.5-pro",
     "provider": "Google",
-    "inputPrice": 0.0012,
-    "outputPrice": 0.005
+    "inputPrice": 1.25,
+    "outputPrice": 5,
+    "contextWindow": "1024k"
   },
   {
-    "name": "Gemini 1.5 Flash",
+    "name": "gemini-1.5-flash",
     "provider": "Google",
-    "inputPrice": 0.000075,
-    "outputPrice": 0.0003
+    "inputPrice": 0.075,
+    "outputPrice": 0.3,
+    "contextWindow": "1024k"
   },
   {
-    "name": "Mistral Large",
-    "provider": "Mistral AI",
-    "inputPrice": 0.008,
-    "outputPrice": 0.024
+    "name": "gemini-2.0-flash",
+    "provider": "Google",
+    "inputPrice": 0.1,
+    "outputPrice": 0.4,
+    "contextWindow": "1024k"
   },
   {
-    "name": "Mistral Small",
+    "name": "gemini-2.0-flash-lite",
+    "provider": "Google",
+    "inputPrice": 0.075,
+    "outputPrice": 0.3,
+    "contextWindow": "1024k"
+  },
+  {
+    "name": "palm-2",
+    "provider": "Google",
+    "inputPrice": 0.0005,
+    "outputPrice": 0.0005,
+    "contextWindow": "8k"
+  },
+  {
+    "name": "mistral-large",
     "provider": "Mistral AI",
-    "inputPrice": 0.001,
-    "outputPrice": 0.003
+    "inputPrice": 2,
+    "outputPrice": 6,
+    "contextWindow": "32k"
+  },
+  {
+    "name": "mistral-small",
+    "provider": "Mistral AI",
+    "inputPrice": 0.2,
+    "outputPrice": 0.6,
+    "contextWindow": "32k"
   },
   {
     "name": "o1",
     "provider": "OpenAI",
-    "inputPrice": 0.015,
-    "outputPrice": 0.06
+    "inputPrice": 15,
+    "outputPrice": 60,
+    "contextWindow": "128k"
   },
   {
     "name": "o3-mini",
     "provider": "OpenAI",
-    "inputPrice": 0.001,
-    "outputPrice": 0.004
+    "inputPrice": 1.1,
+    "outputPrice": 4.4,
+    "contextWindow": "128k"
+  },
+  {
+    "name": "deepseek-r1",
+    "provider": "DeepSeek",
+    "inputPrice": 0.55,
+    "outputPrice": 2.19,
+    "contextWindow": "128k"
+  },
+  {
+    "name": "llama-3.1-405b",
+    "provider": "Meta",
+    "inputPrice": 0.00533,
+    "outputPrice": 0.016,
+    "contextWindow": "16k"
+  },
+  {
+    "name": "bloom-176b",
+    "provider": "BigScience",
+    "inputPrice": 0.2,
+    "outputPrice": 0.8,
+    "contextWindow": "2k"
+  },
+  {
+    "name": "chatglm-6b",
+    "provider": "THUDM",
+    "inputPrice": 0.05,
+    "outputPrice": 0.2,
+    "contextWindow": "2k"
+  },
+  {
+    "name": "opt-175b",
+    "provider": "Meta",
+    "inputPrice": 0.01,
+    "outputPrice": 0.04,
+    "contextWindow": "2k"
+  },
+  {
+    "name": "qwen-2.0",
+    "provider": "Baidu",
+    "inputPrice": 0.1,
+    "outputPrice": 0.4,
+    "contextWindow": "32k"
   }
 ]
