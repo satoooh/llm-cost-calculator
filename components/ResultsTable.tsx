@@ -13,6 +13,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 interface Result {
   modelName: string;
@@ -36,6 +37,8 @@ type SortConfig = {
   key: keyof Result | "perCallCost" | null;
   direction: "asc" | "desc";
 };
+
+type SortValue = string | number;
 
 // プロバイダーごとのアイコンマッピング
 const providerIcons: { [key: string]: string } = {
@@ -69,11 +72,6 @@ const ResultsTable: FC<ResultsTableProps> = ({
     return cost.toFixed(4);
   };
 
-  // 固定価格の表示用フォーマット（1Mトークンあたり）
-  const formatPrice = (price: number) => {
-    return `$${price.toFixed(4)}`;
-  };
-
   const handleSort = (key: SortConfig["key"]) => {
     setSortConfig((current) => ({
       key,
@@ -86,15 +84,15 @@ const ResultsTable: FC<ResultsTableProps> = ({
     if (!sortConfig.key) return results;
 
     return [...results].sort((a, b) => {
-      let aValue: any;
-      let bValue: any;
+      let aValue: SortValue;
+      let bValue: SortValue;
 
       if (sortConfig.key === "perCallCost") {
         aValue = a.inputCost * inputTokens + a.outputCost * outputTokens;
         bValue = b.inputCost * inputTokens + b.outputCost * outputTokens;
       } else {
-        aValue = a[sortConfig.key];
-        bValue = b[sortConfig.key];
+        aValue = a[sortConfig.key as keyof Result];
+        bValue = b[sortConfig.key as keyof Result];
       }
 
       if (aValue === null) return 1;
@@ -102,11 +100,13 @@ const ResultsTable: FC<ResultsTableProps> = ({
       if (aValue === null && bValue === null) return 0;
 
       if (typeof aValue === "string") {
-        const comparison = aValue.localeCompare(bValue);
+        const comparison = aValue.localeCompare(bValue as string);
         return sortConfig.direction === "asc" ? comparison : -comparison;
       }
 
-      return sortConfig.direction === "asc" ? aValue - bValue : bValue - aValue;
+      return sortConfig.direction === "asc"
+        ? (aValue as number) - (bValue as number)
+        : (bValue as number) - (aValue as number);
     });
   };
 
@@ -204,9 +204,11 @@ const ResultsTable: FC<ResultsTableProps> = ({
                     <TableCell className="font-medium">
                       <div className="flex items-center gap-2">
                         {providerIcons[result.provider] && (
-                          <img
+                          <Image
                             src={providerIcons[result.provider]}
                             alt={result.provider}
+                            width={16}
+                            height={16}
                             className="w-4 h-4"
                           />
                         )}

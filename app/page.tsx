@@ -11,9 +11,6 @@ import BatchEditInput from "../components/BatchEditInput";
 import { calculateTokens } from "../utils/tokenCalculator";
 import { calculateCosts } from "../utils/costCalculator";
 import defaultModels from "../data/defaultModels.json";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 
 export interface DefaultModel {
   model: string;
@@ -124,7 +121,7 @@ export default function Home() {
       outputTokens
     );
     setResults(initialCosts.map((cost) => ({ ...cost, callCount })));
-  }, []);
+  }, [callCount, inputTokens, outputTokens]);
 
   const handleInputChange = (text: string) => {
     setInputText(text);
