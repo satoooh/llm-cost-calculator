@@ -12,6 +12,23 @@ import { calculateTokens } from "../utils/tokenCalculator";
 import { calculateCosts } from "../utils/costCalculator";
 import defaultModels from "../data/defaultModels.json";
 
+/* Inserted types for better type safety */
+
+type ModelType = {
+  name: string;
+  inputPrice: number;
+  outputPrice: number;
+};
+
+interface CostResult {
+  modelName: string;
+  inputTokens: number;
+  outputTokens: number;
+  inputCost: number;
+  outputCost: number;
+  totalCost: number;
+}
+
 const DEFAULT_SELECTED_MODELS = ["GPT-4o", "GPT-4o mini"];
 
 export default function Home() {
@@ -20,8 +37,8 @@ export default function Home() {
   const [selectedModels, setSelectedModels] = useState<string[]>(
     DEFAULT_SELECTED_MODELS
   );
-  const [customModels, setCustomModels] = useState<any[]>([]);
-  const [results, setResults] = useState<any[]>([]);
+  const [customModels, setCustomModels] = useState<ModelType[]>([]);
+  const [results, setResults] = useState<CostResult[]>([]);
   const [inputTokens, setInputTokens] = useState(0);
   const [outputTokens, setOutputTokens] = useState(0);
   const [callCount, setCallCount] = useState(1);
@@ -136,6 +153,32 @@ export default function Home() {
                     onChange={(value) => handleBatchUpdate("callCount", value)}
                   />
                 </div>
+
+                {/* Token Calculation Logic */}
+                <Card className="border-none shadow-lg">
+                  <CardContent className="p-6">
+                    <h2 className="text-xl font-semibold">
+                      トークン計算のロジック
+                    </h2>
+                    <p>
+                      このアプリでは、テキストのトークン数を以下のルールで計算しています:
+                    </p>
+                    <ul className="list-disc list-inside">
+                      <li>
+                        入力が空の場合、トークン数は <strong>0</strong> です。
+                      </li>
+                      <li>
+                        入力がある場合、<code>gpt-tokenizer</code>{" "}
+                        を使ってテキストをエンコードし、そのトークン数に固定補正値{" "}
+                        <strong>7</strong> を加算しています。
+                      </li>
+                    </ul>
+                    <p className="mt-2 italic">
+                      計算式: tokenCount = (textが空なら 0, それ以外なら
+                      encode(text).length + 7)
+                    </p>
+                  </CardContent>
+                </Card>
 
                 {/* Results Table */}
                 <ResultsTable

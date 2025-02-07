@@ -1,8 +1,9 @@
-import { encode } from "gpt-tokenizer"
+import { encode } from "gpt-tokenizer";
 
 export function calculateTokens(text: string): number {
-  const tokens = encode(text)
-  // 固定補正値（約7トークン）を適用
-  return tokens.length + 7
+  if (!text || text.trim().length === 0) {
+    return 0;
+  }
+  const tokens = encode(text);
+  return tokens.length;
 }
-
