@@ -11,6 +11,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandSeparator,
 } from "@/components/ui/command";
 import {
   Popover,
@@ -21,6 +22,7 @@ import { Badge } from "@/components/ui/badge";
 
 interface Model {
   name: string;
+  provider: string;
   inputPrice: number;
   outputPrice: number;
 }
@@ -32,6 +34,16 @@ interface ComboboxProps {
   defaultSelectedModels: string[];
 }
 
+// プロバイダーごとのアイコンマッピング
+const providerIcons: { [key: string]: string } = {
+  OpenAI:
+    "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg",
+  Anthropic: "https://avatars.githubusercontent.com/u/51382740?s=200&v=4",
+  Google:
+    "https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg",
+  "Mistral AI": "https://mistral.ai/favicon.ico",
+};
+
 export function ModelsCombobox({
   models,
   selectedModels,
@@ -42,7 +54,7 @@ export function ModelsCombobox({
 
   React.useEffect(() => {
     setSelectedModels(defaultSelectedModels);
-  }, [defaultSelectedModels, setSelectedModels]); // Added defaultSelectedModels to dependencies
+  }, [defaultSelectedModels, setSelectedModels]);
 
   const toggleModel = (modelName: string) => {
     if (selectedModels.includes(modelName)) {
@@ -51,6 +63,18 @@ export function ModelsCombobox({
       setSelectedModels([...selectedModels, modelName]);
     }
   };
+
+  // プロバイダーごとにモデルをグループ化
+  const modelsByProvider = React.useMemo(() => {
+    const grouped: { [key: string]: Model[] } = {};
+    models.forEach((model) => {
+      if (!grouped[model.provider]) {
+        grouped[model.provider] = [];
+      }
+      grouped[model.provider].push(model);
+    });
+    return grouped;
+  }, [models]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -83,39 +107,66 @@ export function ModelsCombobox({
           </div>
           <CommandList>
             <CommandEmpty>モデルが見つかりません。</CommandEmpty>
-            <CommandGroup className="max-h-[300px] overflow-auto">
-              {models.map((model) => (
-                <CommandItem
-                  key={model.name}
-                  onSelect={() => toggleModel(model.name)}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      selectedModels.includes(model.name)
-                        ? "opacity-100"
-                        : "opacity-0"
-                    )}
-                  />
-                  {model.name}{" "}
-                  <span className="text-xs text-gray-500 ml-2">
-                    (${model.inputPrice}/1M / ${model.outputPrice}/1M)
-                  </span>
-                </CommandItem>
-              ))}
-            </CommandGroup>
+            {Object.entries(modelsByProvider).map(
+              ([provider, providerModels]) => (
+                <React.Fragment key={provider}>
+                  <CommandGroup heading={provider}>
+                    {providerModels.map((model) => (
+                      <CommandItem
+                        key={model.name}
+                        onSelect={() => toggleModel(model.name)}
+                        className="flex items-center"
+                      >
+                        <div className="flex items-center flex-1">
+                          {providerIcons[provider] && (
+                            <img
+                              src={providerIcons[provider]}
+                              alt={provider}
+                              className="w-4 h-4 mr-2"
+                            />
+                          )}
+                          <div>
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4 inline-block",
+                                selectedModels.includes(model.name)
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                            {model.name}
+                            <span className="text-xs text-gray-500 ml-2">
+                              (${model.inputPrice}/1M / ${model.outputPrice}/1M)
+                            </span>
+                          </div>
+                        </div>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                  <CommandSeparator />
+                </React.Fragment>
+              )
+            )}
           </CommandList>
         </Command>
       </PopoverContent>
       <div className="flex flex-wrap gap-2 mt-2">
         {selectedModels.map((modelName) => {
           const model = models.find((m) => m.name === modelName);
+          const provider = model?.provider;
           return (
             <Badge
               key={modelName}
               variant="secondary"
-              className="text-xs flex-1 justify-between"
+              className="text-xs flex items-center gap-2"
             >
+              {provider && providerIcons[provider] && (
+                <img
+                  src={providerIcons[provider]}
+                  alt={provider}
+                  className="w-3 h-3"
+                />
+              )}
               <span className="truncate">
                 {modelName} (${model?.inputPrice}/1M / ${model?.outputPrice}/1M)
               </span>

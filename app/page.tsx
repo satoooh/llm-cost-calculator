@@ -11,11 +11,15 @@ import BatchEditInput from "../components/BatchEditInput";
 import { calculateTokens } from "../utils/tokenCalculator";
 import { calculateCosts } from "../utils/costCalculator";
 import defaultModels from "../data/defaultModels.json";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 /* Inserted types for better type safety */
 
 type ModelType = {
   name: string;
+  provider: string;
   inputPrice: number;
   outputPrice: number;
 };
@@ -29,7 +33,7 @@ interface CostResult {
   totalCost: number;
 }
 
-const DEFAULT_SELECTED_MODELS = ["GPT-4o", "GPT-4o mini"];
+const DEFAULT_SELECTED_MODELS = ["GPT-4o", "o3-mini"];
 
 export default function Home() {
   const [inputText, setInputText] = useState("");
@@ -44,22 +48,29 @@ export default function Home() {
   const [callCount, setCallCount] = useState(1);
 
   useEffect(() => {
-    const calculatedInputTokens = calculateTokens(inputText);
-    const calculatedOutputTokens = calculateTokens(outputText);
-    setInputTokens(calculatedInputTokens);
-    setOutputTokens(calculatedOutputTokens);
+    // テキストが変更された時のみトークン数を更新
+    if (inputText || outputText) {
+      const calculatedInputTokens = calculateTokens(inputText);
+      const calculatedOutputTokens = calculateTokens(outputText);
+      setInputTokens(calculatedInputTokens);
+      setOutputTokens(calculatedOutputTokens);
+    }
 
     const allModels = [...defaultModels, ...customModels];
     const selectedModelData = allModels.filter((model) =>
       selectedModels.includes(model.name)
     );
-    const costs = calculateCosts(
-      selectedModelData,
-      calculatedInputTokens,
-      calculatedOutputTokens
-    );
+    const costs = calculateCosts(selectedModelData, inputTokens, outputTokens);
     setResults(costs.map((cost) => ({ ...cost, callCount })));
-  }, [inputText, outputText, selectedModels, customModels, callCount]);
+  }, [
+    inputText,
+    outputText,
+    selectedModels,
+    customModels,
+    callCount,
+    inputTokens,
+    outputTokens,
+  ]);
 
   // 初期表示時にデフォルトモデルの結果を計算
   useEffect(() => {
@@ -103,7 +114,6 @@ export default function Home() {
           <Card className="border-none shadow-lg">
             <CardContent className="p-6">
               <div className="space-y-6">
-                {/* Input/Output Text Areas */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <InputForm
                     inputText={inputText}
@@ -121,7 +131,6 @@ export default function Home() {
 
                 <Separator />
 
-                {/* Model Selection */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <ModelsCombobox
                     models={[...defaultModels, ...customModels]}
@@ -135,7 +144,6 @@ export default function Home() {
                   />
                 </div>
 
-                {/* Batch Edit Inputs */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <BatchEditInput
                     label="入力トークン"
@@ -154,7 +162,6 @@ export default function Home() {
                   />
                 </div>
 
-                {/* Results Table */}
                 <ResultsTable
                   results={results}
                   inputTokens={inputTokens}

@@ -1,23 +1,80 @@
 [
   {
-    "name": "GPT-4o",
-    "inputPrice": 0.03,
-    "outputPrice": 0.06
-  },
-  {
-    "name": "GPT-4o mini",
-    "inputPrice": 0.015,
+    "name": "GPT-4 Turbo",
+    "provider": "OpenAI",
+    "inputPrice": 0.01,
     "outputPrice": 0.03
   },
   {
-    "name": "Anthropic Claude 3",
-    "inputPrice": 0.02,
-    "outputPrice": 0.04
+    "name": "GPT-4o",
+    "provider": "OpenAI",
+    "inputPrice": 0.005,
+    "outputPrice": 0.015
   },
   {
-    "name": "Google Gemini",
-    "inputPrice": 0.01,
-    "outputPrice": 0.02
+    "name": "GPT-4o mini",
+    "provider": "OpenAI",
+    "inputPrice": 0.00015,
+    "outputPrice": 0.0006
+  },
+  {
+    "name": "GPT-3.5 Turbo",
+    "provider": "OpenAI",
+    "inputPrice": 0.0015,
+    "outputPrice": 0.002
+  },
+  {
+    "name": "Claude 3 Opus",
+    "provider": "Anthropic",
+    "inputPrice": 0.015,
+    "outputPrice": 0.075
+  },
+  {
+    "name": "Claude 3 Sonnet",
+    "provider": "Anthropic",
+    "inputPrice": 0.003,
+    "outputPrice": 0.015
+  },
+  {
+    "name": "Claude 3 Haiku",
+    "provider": "Anthropic",
+    "inputPrice": 0.00025,
+    "outputPrice": 0.00125
+  },
+  {
+    "name": "Gemini 1.5 Pro",
+    "provider": "Google",
+    "inputPrice": 0.0012,
+    "outputPrice": 0.005
+  },
+  {
+    "name": "Gemini 1.5 Flash",
+    "provider": "Google",
+    "inputPrice": 0.000075,
+    "outputPrice": 0.0003
+  },
+  {
+    "name": "Mistral Large",
+    "provider": "Mistral AI",
+    "inputPrice": 0.008,
+    "outputPrice": 0.024
+  },
+  {
+    "name": "Mistral Small",
+    "provider": "Mistral AI",
+    "inputPrice": 0.001,
+    "outputPrice": 0.003
+  },
+  {
+    "name": "o1",
+    "provider": "OpenAI",
+    "inputPrice": 0.015,
+    "outputPrice": 0.06
+  },
+  {
+    "name": "o3-mini",
+    "provider": "OpenAI",
+    "inputPrice": 0.001,
+    "outputPrice": 0.004
   }
 ]
-
