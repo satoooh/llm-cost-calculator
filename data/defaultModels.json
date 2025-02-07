@@ -1,156 +1,219 @@
 [
   {
-    "name": "gpt-4-turbo",
+    "model": "GPT-3.5 Turbo",
     "provider": "OpenAI",
-    "inputPrice": 10,
-    "outputPrice": 30,
-    "contextWindow": "128k"
+    "inputPrice": 1.5,
+    "outputPrice": 2.0,
+    "contextWindow": 4096
   },
   {
-    "name": "gpt-4o",
+    "model": "GPT-3.5 Turbo 16K",
+    "provider": "OpenAI",
+    "inputPrice": 3.0,
+    "outputPrice": 4.0,
+    "contextWindow": 16384
+  },
+  {
+    "model": "GPT-4 (8K)",
+    "provider": "OpenAI",
+    "inputPrice": 30.0,
+    "outputPrice": 60.0,
+    "contextWindow": 8192
+  },
+  {
+    "model": "GPT-4 (32K)",
+    "provider": "OpenAI",
+    "inputPrice": 60.0,
+    "outputPrice": 120.0,
+    "contextWindow": 32768
+  },
+  {
+    "model": "GPT-4 Turbo (128K)",
+    "provider": "OpenAI",
+    "inputPrice": 10.0,
+    "outputPrice": 30.0,
+    "contextWindow": 128000
+  },
+  {
+    "model": "GPT-4o",
     "provider": "OpenAI",
     "inputPrice": 2.5,
-    "outputPrice": 10,
-    "contextWindow": "128k"
+    "outputPrice": 10.0,
+    "contextWindow": 128000
   },
   {
-    "name": "gpt-4o-mini",
+    "model": "GPT-4o Mini",
     "provider": "OpenAI",
     "inputPrice": 0.15,
     "outputPrice": 0.6,
-    "contextWindow": "128k"
+    "contextWindow": 128000
   },
   {
-    "name": "gpt-3.5-turbo",
+    "model": "OpenAI o1",
     "provider": "OpenAI",
-    "inputPrice": 0.5,
-    "outputPrice": 1.5,
-    "contextWindow": "16k"
+    "inputPrice": 15.0,
+    "outputPrice": 60.0,
+    "contextWindow": 128000
   },
   {
-    "name": "claude-3-opus",
+    "model": "Claude Instant 1.2",
     "provider": "Anthropic",
-    "inputPrice": 15,
-    "outputPrice": 75,
-    "contextWindow": "200k"
+    "inputPrice": 0.8,
+    "outputPrice": 2.4,
+    "contextWindow": 100000
   },
   {
-    "name": "claude-3-sonnet",
+    "model": "Claude 2.1",
     "provider": "Anthropic",
-    "inputPrice": 3,
-    "outputPrice": 15,
-    "contextWindow": "200k"
+    "inputPrice": 8.0,
+    "outputPrice": 24.0,
+    "contextWindow": 100000
   },
   {
-    "name": "claude-3-haiku",
+    "model": "Claude 3.5 Haiku",
     "provider": "Anthropic",
     "inputPrice": 0.25,
     "outputPrice": 1.25,
-    "contextWindow": "200k"
+    "contextWindow": 200000
   },
   {
-    "name": "gemini-1.5-pro",
+    "model": "Claude 3.5 Sonnet",
+    "provider": "Anthropic",
+    "inputPrice": 3.0,
+    "outputPrice": 15.0,
+    "contextWindow": 200000
+  },
+  {
+    "model": "Claude 3 Opus",
+    "provider": "Anthropic",
+    "inputPrice": 15.0,
+    "outputPrice": 75.0,
+    "contextWindow": 200000
+  },
+  {
+    "model": "Gemini 1.0 Pro",
     "provider": "Google",
-    "inputPrice": 1.25,
-    "outputPrice": 5,
-    "contextWindow": "1024k"
+    "inputPrice": 0.5,
+    "outputPrice": 1.5,
+    "contextWindow": 1000000
   },
   {
-    "name": "gemini-1.5-flash",
+    "model": "Gemini 1.5 Pro",
     "provider": "Google",
-    "inputPrice": 0.075,
-    "outputPrice": 0.3,
-    "contextWindow": "1024k"
+    "inputPrice": 0.0375,
+    "outputPrice": 0.15,
+    "contextWindow": 2000000
   },
   {
-    "name": "gemini-2.0-flash",
+    "model": "Gemini 2.0 Flash",
     "provider": "Google",
     "inputPrice": 0.1,
     "outputPrice": 0.4,
-    "contextWindow": "1024k"
+    "contextWindow": 1000000
   },
   {
-    "name": "gemini-2.0-flash-lite",
-    "provider": "Google",
-    "inputPrice": 0.075,
-    "outputPrice": 0.3,
-    "contextWindow": "1024k"
+    "model": "Titan Text Lite",
+    "provider": "Amazon",
+    "inputPrice": 0.15,
+    "outputPrice": 0.2,
+    "contextWindow": 4096
   },
   {
-    "name": "palm-2",
-    "provider": "Google",
-    "inputPrice": 0.0005,
-    "outputPrice": 0.0005,
-    "contextWindow": "8k"
-  },
-  {
-    "name": "mistral-large",
-    "provider": "Mistral AI",
-    "inputPrice": 2,
-    "outputPrice": 6,
-    "contextWindow": "32k"
-  },
-  {
-    "name": "mistral-small",
-    "provider": "Mistral AI",
+    "model": "Titan Text Express",
+    "provider": "Amazon",
     "inputPrice": 0.2,
     "outputPrice": 0.6,
-    "contextWindow": "32k"
+    "contextWindow": 8192
   },
   {
-    "name": "o1",
-    "provider": "OpenAI",
-    "inputPrice": 15,
-    "outputPrice": 60,
-    "contextWindow": "128k"
+    "model": "Titan Text Premier",
+    "provider": "Amazon",
+    "inputPrice": 0.5,
+    "outputPrice": 1.5,
+    "contextWindow": 32000
   },
   {
-    "name": "o3-mini",
-    "provider": "OpenAI",
-    "inputPrice": 1.1,
-    "outputPrice": 4.4,
-    "contextWindow": "128k"
-  },
-  {
-    "name": "deepseek-r1",
+    "model": "DeepSeek R1",
     "provider": "DeepSeek",
     "inputPrice": 0.55,
     "outputPrice": 2.19,
-    "contextWindow": "128k"
+    "contextWindow": 131072
   },
   {
-    "name": "llama-3.1-405b",
+    "model": "Llama 2 Chat 13B",
     "provider": "Meta",
-    "inputPrice": 0.00533,
-    "outputPrice": 0.016,
-    "contextWindow": "16k"
+    "inputPrice": 0.75,
+    "outputPrice": 1.0,
+    "contextWindow": 4096
   },
   {
-    "name": "bloom-176b",
+    "model": "Llama 2 Chat 70B",
+    "provider": "Meta",
+    "inputPrice": 1.95,
+    "outputPrice": 2.56,
+    "contextWindow": 4096
+  },
+  {
+    "model": "BLOOM 176B",
     "provider": "BigScience",
-    "inputPrice": 0.2,
+    "inputPrice": 0.7,
     "outputPrice": 0.8,
-    "contextWindow": "2k"
+    "contextWindow": 2048
   },
   {
-    "name": "chatglm-6b",
+    "model": "ChatGLM2-6B",
     "provider": "THUDM",
-    "inputPrice": 0.05,
-    "outputPrice": 0.2,
-    "contextWindow": "2k"
+    "inputPrice": 0.5,
+    "outputPrice": 0.5,
+    "contextWindow": 8192
   },
   {
-    "name": "opt-175b",
-    "provider": "Meta",
-    "inputPrice": 0.01,
-    "outputPrice": 0.04,
-    "contextWindow": "2k"
-  },
-  {
-    "name": "qwen-2.0",
+    "model": "ERNIE 4.0 Turbo",
     "provider": "Baidu",
-    "inputPrice": 0.1,
-    "outputPrice": 0.4,
-    "contextWindow": "32k"
+    "inputPrice": 4.11,
+    "outputPrice": 8.22,
+    "contextWindow": 8192
+  },
+  {
+    "model": "Cohere Command",
+    "provider": "Cohere",
+    "inputPrice": 1.5,
+    "outputPrice": 2.0,
+    "contextWindow": 4096
+  },
+  {
+    "model": "Cohere Command Light",
+    "provider": "Cohere",
+    "inputPrice": 0.3,
+    "outputPrice": 0.6,
+    "contextWindow": 4096
+  },
+  {
+    "model": "Jurassic-2 Ultra",
+    "provider": "AI21 Labs",
+    "inputPrice": 18.8,
+    "outputPrice": 18.8,
+    "contextWindow": 8192
+  },
+  {
+    "model": "Jurassic-2 Mid",
+    "provider": "AI21 Labs",
+    "inputPrice": 12.5,
+    "outputPrice": 12.5,
+    "contextWindow": 8192
+  },
+  {
+    "model": "Qwen-14B-Chat-Long",
+    "provider": "Alibaba",
+    "inputPrice": 0.068,
+    "outputPrice": 0.068,
+    "contextWindow": 32768
+  },
+  {
+    "model": "Mistral 7B",
+    "provider": "Mistral AI",
+    "inputPrice": 0.15,
+    "outputPrice": 0.2,
+    "contextWindow": 8192
   }
 ]

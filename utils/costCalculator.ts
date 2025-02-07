@@ -3,7 +3,7 @@ interface Model {
   provider: string;
   inputPrice: number;
   outputPrice: number;
-  contextWindow: string;
+  contextWindow: number;
 }
 
 interface CostResult {
@@ -14,7 +14,7 @@ interface CostResult {
   inputCost: number;
   outputCost: number;
   totalCost: number;
-  contextWindow: string;
+  contextWindow: number;
 }
 
 export function calculateCosts(

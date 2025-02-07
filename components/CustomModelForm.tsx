@@ -1,44 +1,52 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState } from "react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Plus } from "lucide-react"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-
-interface CustomModel {
-  name: string
-  inputPrice: number
-  outputPrice: number
-}
+import type React from "react";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Model } from "@/app/page";
 
 interface CustomModelFormProps {
-  customModels: CustomModel[]
-  setCustomModels: (models: CustomModel[]) => void
+  models: Model[];
+  setModels: (models: Model[]) => void;
 }
 
-const CustomModelForm: React.FC<CustomModelFormProps> = ({ customModels, setCustomModels }) => {
-  const [name, setName] = useState("")
-  const [inputPrice, setInputPrice] = useState("")
-  const [outputPrice, setOutputPrice] = useState("")
-  const [open, setOpen] = useState(false)
+const CustomModelForm: React.FC<CustomModelFormProps> = ({
+  models,
+  setModels,
+}) => {
+  const [name, setName] = useState("");
+  const [provider, setProvider] = useState("");
+  const [inputPrice, setInputPrice] = useState("");
+  const [outputPrice, setOutputPrice] = useState("");
+  const [contextWindow, setContextWindow] = useState("");
+  const [open, setOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (name && inputPrice && outputPrice) {
-      const newModel: CustomModel = {
+    e.preventDefault();
+    if (name && provider && inputPrice && outputPrice && contextWindow) {
+      const newModel: Model = {
         name,
+        provider,
         inputPrice: Number.parseFloat(inputPrice),
         outputPrice: Number.parseFloat(outputPrice),
-      }
-      setCustomModels([...customModels, newModel])
-      setName("")
-      setInputPrice("")
-      setOutputPrice("")
-      setOpen(false)
+        contextWindow: Number.parseInt(contextWindow, 10),
+      };
+      setModels([...models, newModel]);
+      setName("");
+      setProvider("");
+      setInputPrice("");
+      setOutputPrice("");
+      setContextWindow("");
+      setOpen(false);
     }
-  }
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -56,6 +64,13 @@ const CustomModelForm: React.FC<CustomModelFormProps> = ({ customModels, setCust
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="モデル名"
+              className="h-8"
+            />
+            <Input
+              type="text"
+              value={provider}
+              onChange={(e) => setProvider(e.target.value)}
+              placeholder="プロバイダー名"
               className="h-8"
             />
           </div>
@@ -77,14 +92,23 @@ const CustomModelForm: React.FC<CustomModelFormProps> = ({ customModels, setCust
               step="0.000001"
             />
           </div>
+          <div>
+            <Input
+              type="number"
+              value={contextWindow}
+              onChange={(e) => setContextWindow(e.target.value)}
+              placeholder="コンテキストウィンドウ"
+              className="h-8"
+              min="1"
+            />
+          </div>
           <Button type="submit" className="w-full h-8">
             追加
           </Button>
         </form>
       </PopoverContent>
     </Popover>
-  )
-}
+  );
+};
 
-export default CustomModelForm
-
+export default CustomModelForm;

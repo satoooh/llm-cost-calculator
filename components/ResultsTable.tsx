@@ -22,7 +22,7 @@ interface Result {
   inputCost: number;
   outputCost: number;
   totalCost: number;
-  contextWindow: string;
+  contextWindow: number;
 }
 
 interface ResultsTableProps {
@@ -44,7 +44,7 @@ const providerIcons: { [key: string]: string } = {
   Anthropic: "https://avatars.githubusercontent.com/u/51382740?s=200&v=4",
   Google:
     "https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg",
-  "Mistral AI": "https://mistral.ai/favicon.ico",
+  "Mistral AI": "https://mistral.ai/images/logo-dark.svg",
 };
 
 const ResultsTable: FC<ResultsTableProps> = ({
@@ -214,7 +214,9 @@ const ResultsTable: FC<ResultsTableProps> = ({
                       </div>
                     </TableCell>
                     <TableCell>{result.modelName}</TableCell>
-                    <TableCell>{result.contextWindow || "-"}</TableCell>
+                    <TableCell>
+                      {result.contextWindow?.toLocaleString() || "-"}
+                    </TableCell>
                     <TableCell className="text-right">
                       ${result.inputCost.toFixed(4)}
                     </TableCell>
