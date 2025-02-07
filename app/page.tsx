@@ -11,12 +11,6 @@ import BatchEditInput from "../components/BatchEditInput";
 import { calculateTokens } from "../utils/tokenCalculator";
 import { calculateCosts } from "../utils/costCalculator";
 import defaultModels from "../data/defaultModels.json";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 /* Inserted types for better type safety */
 
@@ -159,38 +153,6 @@ export default function Home() {
                     onChange={(value) => handleBatchUpdate("callCount", value)}
                   />
                 </div>
-
-                {/* Token Calculation Help Tooltip */}
-                <TooltipProvider>
-                  <div className="flex items-center space-x-2">
-                    <span className="font-semibold">
-                      トークン計算のロジック
-                    </span>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <button className="rounded-full border border-gray-300 p-1 text-sm focus:outline-none">
-                          ?
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent className="max-w-xs">
-                        <p className="text-sm">
-                          このアプリでは、テキストのトークン数は以下のルールで計算されています:
-                        </p>
-                        <ul className="mt-1 list-disc pl-4 text-sm">
-                          <li>入力が空の場合 → 0</li>
-                          <li>
-                            入力がある場合 →
-                            gpt-tokenizerでエンコードし、そのトークン数をそのまま使用
-                          </li>
-                        </ul>
-                        <p className="mt-1 text-xs text-muted-foreground">
-                          [参考: OpenAI
-                          Docs](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them)
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </div>
-                </TooltipProvider>
 
                 {/* Results Table */}
                 <ResultsTable
